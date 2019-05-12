@@ -7,12 +7,17 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/reset.css'
 import myServer from './plugins/http'
+import moment from 'moment'
 Vue.use(ElementUI)
 Vue.use(myServer)
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
+// 使用monet插件格式化
+Vue.filter('DateFormat', value => {
+  return moment(value).format('YYYY-MM-DD')
+})
 new Vue({
   el: '#app',
   router,

@@ -7,13 +7,12 @@
         <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         <el-breadcrumb-item>用户列表</el-breadcrumb-item>
       </el-breadcrumb>
-
     </div>
     <el-row>
       <el-col>
         <div>
           <el-input placeholder="请输入内容"
-                    v-model="content"
+                    v-model="query"
                     class="input-with-select intput-search">
             <el-button slot="append"
                        icon="el-icon-search"></el-button>
@@ -22,45 +21,111 @@
         </div>
       </el-col>
     </el-row>
-    <el-table :data="tableData"
-              style="width: 100%">
-      <el-table-column prop="date"
-                       label="日期"
-                       width="180">
-      </el-table-column>
-      <el-table-column prop="name"
+    <el-table :data="usersList">
+
+      <el-table-column type="index"
+                       label="#"
+                       width="80"></el-table-column>
+      <el-table-column prop="username"
                        label="姓名"
-                       width="180">
+                       width="100"></el-table-column>
+      <el-table-column prop="email"
+                       label="邮箱"></el-table-column>
+      <el-table-column prop="mobile"
+                       label="电话"></el-table-column>
+      <el-table-column label="创建时间">
+        <template slot-scope="scope">
+          {{scope.row.create_time | DateFormat}}
+
+        </template>
+
       </el-table-column>
-      <el-table-column prop="address"
-                       label="地址">
+      <el-table-column label="用户状态">
+        <template slot-scope="scope">
+          <el-switch v-model="scope.row.mg_state"
+                     active-color="#13ce66"
+                     inactive-color="#ff4949">
+          </el-switch>
+        </template>
+
+      </el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-row>
+
+            <el-button size="mini"
+                       plain
+                       type="primary"
+                       icon="el-icon-edit"
+                       circle></el-button>
+            <el-button size="mini"
+                       plain
+                       type="danger"
+                       icon="el-icon-delete"
+                       circle></el-button>
+            <el-button size="mini"
+                       plain
+                       type="success"
+                       icon="el-icon-check"
+                       circle></el-button>
+
+          </el-row>
+        </template>
       </el-table-column>
     </el-table>
+    <el-pagination @size-change="handleSizeChange"
+                   @current-change="handleCurrentChange"
+                   :current-page="pagenum"
+                   :page-sizes="[2, 4, 6, 8]"
+                   :page-size="pagesize"
+                   layout="total, sizes, prev, pager, next, jumper"
+                   :total="total">
+    </el-pagination>
   </el-card>
 </template>
 
 <script>
+
 export default {
   data () {
     return {
-      content: '',
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      query: '',
+      pagenum: 1,
+      pagesize: 2,
+      usersList: [],
+      total: -1
+    }
+  },
+  created () {
+    this.getUserList()
+  },
+  methods: {
+    handleSizeChange (val) {
+      console.log(`每页 ${val} 条控制每页选项卡几条数据`)
+      this.pagesize = val
+      this.pagenum = 1
+      this.getUserList()
+    },
+    handleCurrentChange (val) {
+      console.log(`当前页: ${val}`)
+      this.pagenum = val
+      this.getUserList()
+    },
+    async getUserList () {
+      const res = await this.$http.get('users', {
+        params: {
+          query: this.query,
+          pagenum: this.pagenum,
+          pagesize: this.pagesize
+        }
+      })
+      const { data: { users, total }, meta: { status, msg } } = res.data
+      if (status === 200) {
+        this.$message.success(msg)
+        this.total = total
+        this.usersList = users
+      }
+      console.log(res.data)
     }
   }
 }
