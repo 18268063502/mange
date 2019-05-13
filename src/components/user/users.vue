@@ -13,11 +13,15 @@
         <div>
           <el-input placeholder="请输入内容"
                     v-model="query"
+                    clearable
+                    @clear="getUserList()"
                     class="input-with-select intput-search">
             <el-button slot="append"
+                       @click="searchUserList()"
                        icon="el-icon-search"></el-button>
           </el-input>
-          <el-button type="primary">添加用户</el-button>
+          <el-button type="primary"
+                     @click="dialogFormVisibleAdd=true">添加用户</el-button>
         </div>
       </el-col>
     </el-row>
@@ -81,6 +85,40 @@
                    layout="total, sizes, prev, pager, next, jumper"
                    :total="total">
     </el-pagination>
+
+    <el-dialog title="添加用户"
+               :visible.sync="dialogFormVisibleAdd">
+      <el-form :model="form">
+        <el-form-item label="用户名称"
+                      :label-width="formLabelWidth">
+          <el-input v-model="form.username"
+                    autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="用户密码"
+                      :label-width="formLabelWidth">
+          <el-input v-model="form.password"
+                    autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱"
+                      :label-width="formLabelWidth">
+          <el-input v-model="form.email"
+                    autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机号"
+                      :label-width="formLabelWidth">
+          <el-input v-model="form.mobile"
+                    autocomplete="off"></el-input>
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer"
+           class="dialog-footer">
+        <el-button @click="dialogFormVisibleAdd = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="addUser()">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </el-card>
 </template>
 
@@ -93,13 +131,35 @@ export default {
       pagenum: 1,
       pagesize: 2,
       usersList: [],
-      total: -1
+      total: -1,
+      dialogFormVisibleAdd: false,
+      formLabelWidth: '100px',
+      form: {
+        username: '',
+        password: '',
+        email: '',
+        mobile: ''
+      }
     }
   },
   created () {
     this.getUserList()
   },
   methods: {
+    async addUser () {
+      const addres = await this.$http.post('users', this.form)
+      const { meta: { msg, status } } = addres.data
+      if (status === 201) {
+        this.$message.success(msg)
+        this.dialogFormVisibleAdd = false
+        this.getUserList()
+      } else {
+        this.$message.error('添加失败')
+      }
+    },
+    searchUserList () {
+      this.getUserList()
+    },
     handleSizeChange (val) {
       console.log(`每页 ${val} 条控制每页选项卡几条数据`)
       this.pagesize = val
