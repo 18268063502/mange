@@ -4,8 +4,7 @@
       <el-row>
         <el-col :span="4">
           <div class="grid-content bg-purple">
-            <img src="@/assets/logo.png"
-                 alt="">
+            <img src="@/assets/logo.png" alt>
           </div>
         </el-col>
         <el-col :span="18">
@@ -13,18 +12,14 @@
         </el-col>
         <el-col :span="2">
           <div class="grid-content bg-purple exit-div">
-            <a class="exit"
-               href="#"
-               @click.prevent="exit()">退出</a>
+            <a class="exit" href="#" @click.prevent="exit()">退出</a>
           </div>
         </el-col>
       </el-row>
     </el-header>
     <el-container>
-      <el-aside class="aside"
-                width="200px">
-        <el-menu :unique-opened="true"
-                 :router="true">
+      <el-aside class="aside" width="200px">
+        <el-menu :unique-opened="true" :router="true">
           <!-- 用户管理 -->
           <el-submenu index="1">
             <template slot="title">
@@ -92,7 +87,6 @@
               <span>数据报表</span>
             </el-menu-item>
           </el-submenu>
-
         </el-menu>
       </el-aside>
       <el-main class="main">

@@ -1,9 +1,11 @@
 <template>
   <div class="login">
-    <el-form class="form-login"
-             :label-position="labelPosition"
-             label-width="80px"
-             :model="formLabelAlign">
+    <el-form
+      class="form-login"
+      :label-position="labelPosition"
+      label-width="80px"
+      :model="formLabelAlign"
+    >
       <h2>用户登录</h2>
       <el-form-item label="用户名">
         <el-input v-model="formLabelAlign.username"></el-input>
@@ -11,9 +13,7 @@
       <el-form-item label="密码">
         <el-input v-model="formLabelAlign.password" @keyup.enter.native="handGo()"></el-input>
       </el-form-item>
-      <el-button @click="handGo()"
-                 class="login-button"
-                 type="primary">登录</el-button>
+      <el-button @click="handGo()" class="login-button" type="primary">登录</el-button>
     </el-form>
   </div>
 </template>
@@ -50,21 +50,16 @@ export default {
 </script>
 
 <style lang="stylus">
-.login {
-  height: 100%;
-  background-color: #324152;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .form-login {
-    width: 430px;
-    background-color: #fff;
-    padding: 30px;
-
-    el-button, .login-button {
-      width: 100%;
-    }
-  }
-}
+.login
+  height 100%
+  background-color #324152
+  display flex
+  justify-content center
+  align-items center
+  .form-login
+    width 430px
+    background-color #fff
+    padding 30px
+    el-button, .login-button
+      width 100%
 </style>
