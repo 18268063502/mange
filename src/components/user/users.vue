@@ -21,12 +21,12 @@
           >
             <el-button slot="append" @click="searchUserList()" icon="el-icon-search"></el-button>
           </el-input>
-          <el-button type="primary" @click="dialogFormVisibleAdd=true">添加用户</el-button>
+          <el-button type="primary" @click="dialogFormVisibleAdd=true;form={}">添加用户</el-button>
         </div>
       </el-col>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="usersList">
+    <el-table highlight-current-row size="small"  :data="usersList">
       <el-table-column type="index" label="#" width="80"></el-table-column>
       <el-table-column prop="username" label="姓名" width="100"></el-table-column>
       <el-table-column prop="email" label="邮箱"></el-table-column>
@@ -47,7 +47,7 @@
               plain
               type="primary"
               icon="el-icon-edit"
-              @click="editUser(scope.row.id)"
+              @click="editUser(scope.row)"
               circle
             ></el-button>
             <el-button
@@ -99,8 +99,8 @@
     <!-- 编辑用户 -->
     <el-dialog title="编辑用户" :visible.sync="dialogFormVisibleSet">
       <el-form :model="form">
-        <el-form-item label="用户id" :label-width="formLabelWidth">
-          <el-input v-model="form.id" :disabled="true" autocomplete="off"></el-input>
+        <el-form-item label="用户名" :label-width="formLabelWidth">
+          <el-input v-model="form.username" :disabled="true" autocomplete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="邮箱" :label-width="formLabelWidth">
@@ -112,7 +112,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisibleSet = false">取 消</el-button>
-        <el-button type="primary" @click="editUser()">修 改</el-button>
+        <el-button type="primary" @click="editData()">修 改</el-button>
       </div>
     </el-dialog>
   </el-card>
@@ -144,10 +144,19 @@ export default {
     this.getUserList()
   },
   methods: {
+    // 修改用户
+    async editData () {
+      const self = this
+      const res = await this.$http.put(`users/${self.form.id}`, self.form)
+      this.dialogFormVisibleSet = false
+      this.getUserList()
+      console.log(res)
+    },
     // 编辑用户
-    editUser (userid) {
+    editUser (form) {
+      this.form = form
+      console.log(this.form)
       this.dialogFormVisibleSet = true
-      this.form.id = userid
     },
     // 删除用户
     del (userid) {
