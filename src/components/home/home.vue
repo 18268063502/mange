@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="4">
           <div class="grid-content bg-purple">
-            <img src="@/assets/logo.png" alt>
+            <img height="50" src="@/assets/logo.png" alt>
           </div>
         </el-col>
         <el-col :span="18">
@@ -42,7 +42,7 @@
               <i class="el-icon-location"></i>
               <span>角色列表</span>
             </el-menu-item>
-            <el-menu-item index="2-2">
+            <el-menu-item index="permission">
               <i class="el-icon-location"></i>
               <span>权限列表</span>
             </el-menu-item>
