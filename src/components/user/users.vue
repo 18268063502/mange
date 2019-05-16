@@ -137,7 +137,12 @@
         <el-form-item label="分配角色" label-width="100px">
           <el-select v-model="characterListDateID">
             <el-option disabled label="请选择" :value="-1"></el-option>
-            <el-option v-for="(item,i) of characterList" :label="item.roleName" :key="i" :value="item.id"></el-option>
+            <el-option
+              v-for="(item,i) of characterList"
+              :label="item.roleName"
+              :key="i"
+              :value="item.id"
+            ></el-option>
           </el-select>
         </el-form-item>
       </el-form>
