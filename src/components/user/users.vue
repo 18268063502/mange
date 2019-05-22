@@ -3,11 +3,7 @@
   <el-card class="box-card">
     <!-- 导航 -->
     <div slot="header" class="clearfix">
-      <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-        <el-breadcrumb-item>用户列表</el-breadcrumb-item>
-      </el-breadcrumb>
+      <my-bread leve1="用户管理" leve2="用户列表"></my-bread>
     </div>
     <!-- 用户搜索 -->
     <el-row>

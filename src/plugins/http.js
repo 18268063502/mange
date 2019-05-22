@@ -2,8 +2,36 @@ import axios from 'axios'
 const myServer = {}
 myServer.install = Vue => {
   axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
-  const token = window.localStorage.getItem('token')
-  axios.defaults.headers.common['Authorization'] = token
+  // 添加请求拦截器
+  axios.interceptors.request.use(
+    function (config) {
+      // 在发送请求之前做些什么
+      // 发起请求前设置只要不是login页面就设置token
+      if (config.url !== 'login') {
+        const token = window.localStorage.getItem('token')
+        config.headers.common['Authorization'] = token
+      }
+      return config
+    },
+    function (error) {
+      // 对请求错误做些什么
+      return Promise.reject(error)
+    }
+  )
+
+  // 添加响应拦截器
+  axios.interceptors.response.use(
+    function (response) {
+      // 对响应数据做点什么
+      return response
+    },
+    function (error) {
+      // 对响应错误做点什么
+      return Promise.reject(error)
+    }
+  )
+
+  // 在请求发起之前 设置头部token
   Vue.prototype.$http = axios
 }
 

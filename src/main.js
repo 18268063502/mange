@@ -8,6 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/reset.css'
 import myServer from './plugins/http'
 import moment from 'moment'
+import bread from './components/custom/bread.vue'
 Vue.use(ElementUI)
 Vue.use(myServer)
 
@@ -18,6 +19,8 @@ Vue.config.productionTip = false
 Vue.filter('DateFormat', value => {
   return moment(value).format('YYYY-MM-DD')
 })
+// 创建全局vue组件，必须在实力前创建
+Vue.component(bread.name, bread) // 注册面包屑组件
 new Vue({
   el: '#app',
   router,
