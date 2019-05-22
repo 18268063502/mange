@@ -19,7 +19,14 @@
     </el-header>
     <el-container>
       <el-aside class="aside" width="200px">
-        <el-menu :unique-opened="true" :router="true">
+        <el-menu :unique-opened="true" :router="true" :default-active="$route.path.split('/')[1]">
+          <!-- 首页 -->
+          <!-- //default-active当前激活页面 -->
+          <el-menu-item index="index">
+            <i class="el-icon-date"></i>
+            <span>首页{{$route.path.split('/')[1]}}</span>
+          </el-menu-item>
+
           <!-- 用户管理 -->
           <el-submenu index="1">
             <template slot="title">
@@ -38,7 +45,7 @@
               <i class="el-icon-location"></i>
               <span>权限管理</span>
             </template>
-            <el-menu-item index="2-1">
+            <el-menu-item index="role">
               <i class="el-icon-location"></i>
               <span>角色列表</span>
             </el-menu-item>

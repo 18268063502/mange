@@ -13,9 +13,9 @@
       <el-form-item label="密码">
         <el-input v-model="formLabelAlign.password" type="password" @keyup.enter.native="handGo()"></el-input>
       </el-form-item>
-       <el-form-item>
-       <el-checkbox v-model="checked">记住密码</el-checkbox>
-       </el-form-item>
+      <el-form-item>
+        <el-checkbox v-model="checked">记住密码</el-checkbox>
+      </el-form-item>
       <el-button @click="handGo()" class="login-button" type="primary">登录</el-button>
     </el-form>
   </div>
@@ -44,7 +44,7 @@ export default {
         window.localStorage.setItem('token', data.token)
         console.log(data.token)
         this.$message.success(msg)
-        this.$router.push({ name: 'home' })
+        this.$router.push({ name: 'index' })
       } else {
         this.$message.error(msg)
       }
