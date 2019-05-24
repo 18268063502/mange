@@ -4,48 +4,33 @@
     <el-row>
       <el-button class="mt" type="primary" plain>添加角色</el-button>
     </el-row>
-    <el-table height="400" :data="permissDate" style="width: 100%">
+    <!-- 表格 -->
+    <el-table highlight-current-row size="small" :data="rolelist">
       <el-table-column type="index" label="#" width="80"></el-table-column>
-      <el-table-column prop="authName" label="角色名称"></el-table-column>
-      <el-table-column prop="authName" label="角色描述"></el-table-column>
-      <!-- 操作 -->
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-row>
-            <el-button
-              size="mini"
-              plain
-              type="primary"
-              icon="el-icon-edit"
-              @click="editUser(scope.row)"
-              circle
-            ></el-button>
-            <el-button
-              size="mini"
-              plain
-              type="danger"
-              icon="el-icon-delete"
-              @click="del(scope.row.id)"
-              circle
-            ></el-button>
-            <el-button
-              size="mini"
-              plain
-              type="success"
-              icon="el-icon-check"
-              @click="distributionDialogDialog(scope.row)"
-              circle
-            ></el-button>
-          </el-row>
-        </template>
-      </el-table-column>
+      <el-table-column prop="roleName" label="角色名称" width="100"></el-table-column>
+      <el-table-column prop="roleDesc" label="角色描述" width="100"></el-table-column>
     </el-table>
   </el-card>
 </template>
 
 <script>
-export default {
 
+export default {
+  data () {
+    return {
+      rolelist: []
+    }
+  },
+  created () {
+    this.getRoleList()
+  },
+  methods: {
+    async getRoleList () {
+      const res = await this.$http.get('roles')
+      this.rolelist = res.data.data
+      console.log(this.rolelist)
+    }
+  }
 }
 </script>
 
